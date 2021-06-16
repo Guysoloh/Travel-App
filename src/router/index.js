@@ -1,45 +1,51 @@
 import { createRouter, createWebHashHistory } from "vue-router";
 import Home from "../views/Home.vue";
-
+import store from "@/store.js";
 const routes = [
   {
     path: "/",
     name: "home",
     component: Home,
+    props:true
   },
-  {
-    path: "/brazil",
-    name: "brazil",
-    component: () => import ( /*webpackChunkName: "brazil" */ "../views/Brazil.vue"),
-  },
-  {
-    path: "/hawaii",
-    name: "hawaii",
-    component: () => import ( /* webpackChunkName: "hawaii" */ "../views/Hawaii.vue"),
 
-  },
   {
-    path: "/panama",
-    name: "panama",
-    component: () =>  import(/*webpackChunkName: "panama" */ "../views/Panama.vue"),
-  },
-  {
-    path: "/jamaica",
-    name: "jamaica",
-    component: () =>
-    import( /*webpackChunkName: "jamaica" */"../views/Jamaica.vue"),
-  },
-  {
-    path: "/details/:id",
+    path: "/details/:slug",
     name: "DestinationDetails",
-    component:()=> import(/*webpackChunkName : "DestinationDetails*/"../views/DestinationDetails.vue"),
-
+    component: () =>import ( /* webpackChunkName : "DestinationDetails*/  "../views/DestinationDetails.vue"),
+    props:true,
+    children:[
+      {
+        path:":experienceSlug",
+        name:"experienceDetails",
+        props: true,
+        component:()=> import(/* webpackChunkName: "experiencedetails"*/"../views/ExperienceDetails.vue"),
+      }
+    ],
+    beforeEnter: (to, from, next) => {
+      const exists = store.destinations.find(
+        destination => destination.slug === to.params.slug
+      );
+      if (exists) {
+        next();
+      } else {
+        next({ name: "notFound" });
+      }
+    }
+    
+  },
+  {
+    path: "/404",
+    alias: '*',
+    name : "notFound",
+    component: ()=>import(/*webpackChunkName: "NotFound"*/"../views/NotFound.vue"),
   },
 ];
 
 const router = createRouter({
   history: createWebHashHistory(),
   routes,
+  // mode:history,
 });
 
 export default router;

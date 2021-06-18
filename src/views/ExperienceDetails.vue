@@ -1,6 +1,6 @@
 <template>
 <section>
-    <h1>Experiences</h1>
+   
     <h2>{{experience.name}}</h2>
     <div class="experience-details">
     
@@ -47,6 +47,7 @@ p{
 .experience-details{
     display:flex;
     justify-content: space-between;
+    padding: 40px 0;
 }
 img {
   max-width: 600px;

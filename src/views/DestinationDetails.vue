@@ -13,12 +13,12 @@
   </section>
   <section class='experiences'>
     <h2>Top experiences in {{destination.name}}</h2>
-  <div class="cards">
+  <div class="cards" id="experience">
     <div v-for="experience in destination.experiences" :key="experience.slug" class="card">
       <router-link :to="{name:'experienceDetails',
     params:{
         experienceSlug:experience.slug
-    }}">
+    },hash:'#experience'}">
       
       <img :src="require(`@/assets/${experience.image}`)" :alt="experience.name"/>
       <span class="card__text">
@@ -97,5 +97,8 @@ p {
   font-size: 25px;
   font-weight: bold;
   text-decoration: none;
+}
+.experiences{
+  padding :40px 0;
 }
 </style>
